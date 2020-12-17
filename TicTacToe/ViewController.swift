@@ -56,22 +56,48 @@ class ViewController: UIViewController {
     
     func whoWins() {
         for rule in rules {
-          let playerat0 = board[rule[0]]
-            let playerat1 = board[rule[1]]
-            let playerat2 = board[rule[2]]
+            let player1 = board[rule[0]]
+            let player2 = board[rule[1]]
+            let player3 = board[rule[2]]
             
-            if playerat0 == playerat1,
-               playerat1 == playerat2,
-               !playerat0.isEmpty {
-                print ("Winner is \(playerat0)")
+            if player1 == player2,
+               player2 == player3,
+             //  player3 == player4,
+               !player1.isEmpty {
+                print ("Winner is \(player2)")
+                showAlert(msg: "Well played \(player3) you win!")
             }
+        }
+        //TODO: Draw condition
+        if !board.contains("") {
+            showAlert(msg: "Tie!")
+        }
+    }
+    
+    //TODO: Set up an alert for when a user wins
+    
+    func showAlert(msg: String) {
+        let alert = UIAlertController(title: "Success", message: msg, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default) { _ in
+            self.reset()
+        }
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
+    }
+    //TODO: Set up a function to reset the game removing all action and restarting
+    func reset(){
+        board.removeAll()
+        loadBoard()
+        
+        for button in buttons {
+            button.setTitle(nil, for: .normal)
         }
     }
     
     // Initialize the board
     //size of the board the size of the buttons
     func loadBoard(){
-        for i in 0..<buttons.count {
+        for _ in 0..<buttons.count {
             board.append("")
         }
     }
